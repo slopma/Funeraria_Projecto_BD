@@ -43,7 +43,3 @@ END $$
 -- Vuelve a cambiar el delimitador a su valor original (;), ya que hemos terminado de definir el procedimiento.
 DELIMITER ;
 
--- Llama (ejecuta) el procedimiento `insertar_cliente`, proporcionando valores específicos:
--- 'Nombre' (nombre del cliente), 'Apellido' (apellido del cliente), '2023-11-22' (fecha de fallecimiento), 
--- 'TITULAR' (tipo de cliente), y '1' (el ID de la funeraria).
-CALL insertar_cliente('Nombre', 'Apellido', '2023-11-22', 'TITULAR', 1);
