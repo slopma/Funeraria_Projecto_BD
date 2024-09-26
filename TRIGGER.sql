@@ -27,10 +27,3 @@ END $$
 
 -- Vuelve a cambiar el delimitador a su valor original ';' ya que hemos terminado de definir el trigger.
 DELIMITER ;
-
--- Inserta un nuevo cliente en la tabla `cliente` con los siguientes valores: 
--- nombre 'Saol', apellido 'Márquez', fecha de fallecimiento '2010-04-15', tipo de cliente 'BENEFICIARIO', 
--- y asociado a la funeraria con ID 1.
--- Como resultado, el trigger se activará automáticamente y también se insertará un nuevo hueco para este cliente.
-INSERT INTO gestion_funeraria.cliente (nombre, apellido, fecha_fallecimiento, tipo_cliente, funeraria_id_funeraria) 
-VALUES ('Saol', 'Márquez', '2010-04-15', 'BENEFICIARIO', 1);
