@@ -1,3 +1,9 @@
+-- Aquí encuentras:
+-- 1. El trigger
+-- 2. El procedimento almacenado
+-- 3. La función
+-- 4. La vista
+
 -- Selecciona la base de datos `gestion_funeraria` para trabajar con ella.
 USE gestion_funeraria;
 
