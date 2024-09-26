@@ -53,7 +53,7 @@ INSERT INTO gestion_funeraria.expediente_autopsia (es_autopsiado, conclusiones, 
 ('SI', 'Drogas', '2022-11-12', 13, 3),
 ('NO', NULL, NULL, 14, NULL),
 ('NO', NULL, NULL, 15, NULL),
-('SI', 'Ahogamiento', '2023-03-03', 16, 1),
+('SI', 'Ahogamiento', '2021-10-19', 16, 1),
 ('NO', NULL, NULL, 17, NULL),
 ('SI', 'Accidente de trabajo', '2023-06-17', 18, 2),
 ('SI', 'Fallecimiento repentino', '2023-04-04', 19, 1),
@@ -62,7 +62,7 @@ INSERT INTO gestion_funeraria.expediente_autopsia (es_autopsiado, conclusiones, 
 ('NO', NULL, NULL, 22, NULL),
 ('SI', 'Muerte súbita', '2022-09-15', 23, 2),
 ('NO', NULL, NULL, 24, NULL),
-('SI', 'Herida por arma blanca', '2023-08-08', 25, 1);
+('SI', 'Herida por arma blanca', '2020-04-16', 25, 1);
 
 -- Tabla de huecos
 INSERT INTO gestion_funeraria.hueco (funeraria_id_funeraria, tipo_hueco, ocupado, ubicacion, medidas, cliente_id_cliente) VALUES
