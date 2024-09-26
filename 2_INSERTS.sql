@@ -14,9 +14,9 @@ INSERT INTO gestion_funeraria.cliente (nombre, apellido, fecha_fallecimiento, ti
 ('Pedro', 'Martínez', NULL, 'TITULAR', 2),
 ('Laura', 'López', '2023-11-22', 'BENEFICIARIO', 3),
 ('Sofía', 'Flores', NULL, 'TITULAR', 2),
-('Isabel', 'Mayorga', NULL, 'BENEFICIARIO', 2),
+('Isabel', 'Mayorga', '2023-05-14', 'BENEFICIARIO', 2), 
 ('Luis Angel', 'Nerio', NULL, 'TITULAR', 1),
-('Carlos', 'Hernández', NULL, 'TITULAR', 3),
+('Carlos', 'Hernández', '2022-08-21', 'BENEFICIARIO', 3),  
 ('María', 'Jiménez', '2023-06-15', 'BENEFICIARIO', 1),
 ('Andrés', 'Pérez', NULL, 'TITULAR', 1),
 ('Claudia', 'González', '2023-07-10', 'BENEFICIARIO', 2),
@@ -35,8 +35,8 @@ INSERT INTO gestion_funeraria.cliente (nombre, apellido, fecha_fallecimiento, ti
 ('Jorge', 'Silva', NULL, 'TITULAR', 2),
 ('Verónica', 'Luna', NULL, 'TITULAR', 3),
 ('Raúl', 'Márquez', '2020-04-15', 'BENEFICIARIO', 1);
--- 
 
+-- Tabla de expediente de autopsias
 INSERT INTO gestion_funeraria.expediente_autopsia (es_autopsiado, conclusiones, fecha_autopsia, cliente_id_cliente, autopsiologo_id_autopsiologo) VALUES
 ('NO', NULL, NULL, 1, NULL),
 ('NO', NULL, NULL, 2, NULL),
@@ -64,7 +64,7 @@ INSERT INTO gestion_funeraria.expediente_autopsia (es_autopsiado, conclusiones, 
 ('NO', NULL, NULL, 24, NULL),
 ('SI', 'Herida por arma blanca', '2023-08-08', 25, 1);
 
-
+-- Tabla de huecos
 INSERT INTO gestion_funeraria.hueco (funeraria_id_funeraria, tipo_hueco, ocupado, ubicacion, medidas, cliente_id_cliente) VALUES
 (1, 'Tumba', 'NO', 'Sección A, Fila 1', '2.5x3 metros', 1),
 (2, 'Osario', 'NO', 'Sección B, Fila 2', '2.5x3 metros', 2),
@@ -91,6 +91,7 @@ INSERT INTO gestion_funeraria.hueco (funeraria_id_funeraria, tipo_hueco, ocupado
 (2, 'Tumba', 'SI', 'Sección C, Fila 23', '2.5x3 metros', 23),
 (3, 'Nicho', 'NO', 'Sección D, Fila 24', '1.5x2 metros', 24),
 (1, 'Tumba', 'SI', 'Sección A, Fila 25', '2.5x3 metros', 25);
+
 
 
 INSERT INTO gestion_funeraria.servicio_cementerio (tipo_servicio, tiempo_inicio, fecha_inicio, fin_inicio, cliente_id_cliente, funeraria_id_funeraria) VALUES
