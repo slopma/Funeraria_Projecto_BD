@@ -1,3 +1,8 @@
+-- Aquí encuentras:
+-- 1. Consulta a funcion por tiempo que lleva muerto el usuario
+-- 2. Creacion de usuario con el procedimeinto almacenado para activar el trigger
+-- 3. la vista de las personas fallecidas
+
 USE gestion_funeraria;
 
 
