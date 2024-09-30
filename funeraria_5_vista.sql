@@ -14,10 +14,10 @@ FROM
     gestion_funeraria.cliente c 
 JOIN
     gestion_funeraria.expediente_autopsia ea ON c.id_cliente = ea.cliente_id_cliente
-    -- JOIN para obtener la fecha de fallecimiento
+    -- join para obtener la fecha de fallecimiento
 LEFT JOIN
     gestion_funeraria.servicio_cementerio sc ON c.id_cliente = sc.cliente_id_cliente
-    -- LEFT JOIN para incluir servicios
+    -- left join para incluir servicios
 WHERE
     sc.fecha_inicio >= DATE_ADD(ea.fecha_fallecimiento, INTERVAL 3 DAY)
     -- incluir servicios que empiezan al menos 3 días después del fallecimiento
@@ -38,7 +38,7 @@ FROM
     gestion_funeraria.cliente c 
 JOIN 
     gestion_funeraria.sede_funeraria sf ON c.sede_funeraria_id_sede_funeraria = sf.id_sede_funeraria
-    -- JOIN para juntar cada cliente con su sede
+    -- join para juntar cada cliente con su sede
 ORDER BY 
     sf.sede, c.apellido, c.nombre;
 
