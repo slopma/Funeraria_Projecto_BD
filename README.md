@@ -10,7 +10,7 @@ Integrantes:
 
 ## Funcionamiento
 Para ejecutrar correctamente la base de datos y visualizar correctamente su funcionamiento, se deben seguir las siguientes instrucciones: 
-1. Ejecutar _bd_funeraria_1_
+1. Ejecutar _funeraria_1_bd_
 2. Ejecutar _proc_almacenados_2_
 3. Ejecutar _triggers_3_
 4. Ejecutar _inserts_4_
