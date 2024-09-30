@@ -18,3 +18,4 @@ END $$
 DELIMITER ;
 
 SELECT contar_servicio_por_sede(1) AS total_servicio;
+-- El valor del id se cambia por 2 o 3 si se desea conocer el total de servicios en las otras sedes
