@@ -86,7 +86,7 @@ DELIMITER ;
 
 DELIMITER //
 SET SQL_SAFE_UPDATES = 0;
-CREATE TRIGGER after_hueco_update
+CREATE TRIGGER despues_actualizar_hueco
 AFTER UPDATE ON hueco
 FOR EACH ROW
 BEGIN
