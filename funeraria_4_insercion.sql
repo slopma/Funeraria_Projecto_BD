@@ -1,5 +1,3 @@
-
-
 INSERT INTO gestion_funeraria.cliente 
 (id_cliente, sede_funeraria_id_sede_funeraria, estado_cliente, tipo_cliente, nombre, apellido, tipo_documento, numero_documento)
 VALUES
