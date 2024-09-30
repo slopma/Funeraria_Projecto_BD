@@ -22,6 +22,7 @@ USE `gestion_funeraria` ;
 -- -----------------------------------------------------
 -- Table `gestion_funeraria`.`autopsiologo`
 -- -----------------------------------------------------
+-- Tabla maestra
 CREATE TABLE IF NOT EXISTS `gestion_funeraria`.`autopsiologo` (
   `id_autopsiologo` INT NOT NULL AUTO_INCREMENT,
   `nombre` VARCHAR(50) NOT NULL,
@@ -37,6 +38,7 @@ COLLATE = utf8mb4_0900_ai_ci;
 -- -----------------------------------------------------
 -- Table `gestion_funeraria`.`sede_funeraria`
 -- -----------------------------------------------------
+-- Tabla maestra
 CREATE TABLE IF NOT EXISTS `gestion_funeraria`.`sede_funeraria` (
   `id_sede_funeraria` INT NOT NULL AUTO_INCREMENT,
   `sede` VARCHAR(100) NOT NULL,
@@ -52,6 +54,7 @@ COLLATE = utf8mb4_0900_ai_ci;
 -- -----------------------------------------------------
 -- Table `gestion_funeraria`.`cliente`
 -- -----------------------------------------------------
+-- Tabla maestra
 CREATE TABLE IF NOT EXISTS `gestion_funeraria`.`cliente` (
   `id_cliente` INT NOT NULL AUTO_INCREMENT,
   `sede_funeraria_id_sede_funeraria` INT NOT NULL,
@@ -77,6 +80,7 @@ COLLATE = utf8mb4_0900_ai_ci;
 -- -----------------------------------------------------
 -- Table `gestion_funeraria`.`expediente_autopsia`
 -- -----------------------------------------------------
+-- Tabla transaccional
 CREATE TABLE IF NOT EXISTS `gestion_funeraria`.`expediente_autopsia` (
   `id_expediente_autopsia` INT NOT NULL AUTO_INCREMENT,
   `cliente_id_cliente` INT NOT NULL,
@@ -122,6 +126,7 @@ COLLATE = utf8mb4_0900_ai_ci;
 -- -----------------------------------------------------
 -- Table `gestion_funeraria`.`hueco`
 -- -----------------------------------------------------
+-- Tabla transaccional
 CREATE TABLE IF NOT EXISTS `gestion_funeraria`.`hueco` (
   `id_hueco` INT NOT NULL AUTO_INCREMENT,
   `sede_funeraria_id_sede_funeraria` INT NOT NULL,
@@ -152,6 +157,7 @@ COLLATE = utf8mb4_0900_ai_ci;
 -- -----------------------------------------------------
 -- Table `gestion_funeraria`.`log_hueco`
 -- -----------------------------------------------------
+-- Tabla transaccional
 CREATE TABLE IF NOT EXISTS `gestion_funeraria`.`log_hueco` (
   `id_log_hueco` INT NOT NULL AUTO_INCREMENT,
   `hueco_id` INT NULL DEFAULT NULL,
@@ -169,6 +175,7 @@ COLLATE = utf8mb4_0900_ai_ci;
 -- -----------------------------------------------------
 -- Table `gestion_funeraria`.`servicio_cementerio`
 -- -----------------------------------------------------
+-- Tabla transaccional
 CREATE TABLE IF NOT EXISTS `gestion_funeraria`.`servicio_cementerio` (
   `id_servicio_cementerio` INT NOT NULL AUTO_INCREMENT,
   `cliente_id_cliente` INT NOT NULL,
