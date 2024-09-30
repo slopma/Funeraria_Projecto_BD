@@ -1,13 +1,12 @@
 SELECT * FROM gestion_funeraria.sede_funeraria;
 
 
-DELIMITER $$ -- Delimitador para indicar cuando inicia y termina un bloque de codigo
+DELIMITER $$
 
 CREATE PROCEDURE proc_crear_hueco()
 BEGIN 
   DECLARE fid INT;
   DECLARE seq INT;  
-
 
   SET fid = 1;  -- Iterar sobre cada funeraria (ID 1 a 3)
 
@@ -17,7 +16,7 @@ BEGIN
     SET seq = 1;
     WHILE seq <= 100 DO
       INSERT INTO gestion_funeraria.hueco (cliente_id_cliente, sede_funeraria_id_sede_funeraria, tipo_hueco, estado_hueco, ubicacion, medida)
-      VALUES (NULL, fid, 'Tumba', 'Disponible', CONCAT('Osario ', fid, '-', seq), '1x1x1'); -- Medida específica para osarios
+      VALUES (NULL, fid, 'Osario', 'Disponible', CONCAT('Osario ', fid, '-', seq), '1x1x1'); -- Medida específica para osarios
       SET seq = seq + 1;
     END WHILE;
 
@@ -25,7 +24,7 @@ BEGIN
     SET seq = 1;
     WHILE seq <= 100 DO
       INSERT INTO gestion_funeraria.hueco (cliente_id_cliente, sede_funeraria_id_sede_funeraria, tipo_hueco, estado_hueco, ubicacion, medida)
-      VALUES (NULL, fid, 'Osario', 'Disponible', CONCAT('Tumba ', fid, '-', seq), '2x1x2'); -- Medida específica para tumbas
+      VALUES (NULL, fid, 'Tumba', 'Disponible', CONCAT('Tumba ', fid, '-', seq), '2x1x2'); -- Medida específica para tumbas
       SET seq = seq + 1;
     END WHILE;
 
@@ -36,6 +35,8 @@ END$$
 DELIMITER ;
 
 CALL proc_crear_hueco();
+
+
 
 
 DELIMITER //
@@ -70,7 +71,7 @@ BEGIN
             AND sede_funeraria_id_sede_funeraria = funeraria_id
             LIMIT 1  -- Asignar solo un osario
         ) AS osario ON 1 = 1 -- Forzar la combinacion de la consulta, ya que no tienen una relación directa entre las columnas
-        SET h.cliente_id_cliente = cliente_id, --Actualizar el estado del hueco del cliente
+        SET h.cliente_id_cliente = cliente_id, -- Actualizar el estado del hueco del cliente
             h.estado_hueco = 'Ocupado'
         WHERE h.id_hueco = osario.id_hueco;
 
