@@ -1,16 +1,15 @@
--- Primero, asegurémonos de que hay funerarias en la tabla sede_funeraria
 SELECT * FROM gestion_funeraria.sede_funeraria;
 
--- Ahora vamos a insertar los osarios y tumbas
-DELIMITER $$
+
+DELIMITER $$ -- Delimitador para indicar cuando inicia y termina un bloque de codigo
 
 CREATE PROCEDURE proc_crear_hueco()
-BEGIN
+BEGIN 
   DECLARE fid INT;
   DECLARE seq INT;  
 
-  -- Iterar sobre cada funeraria (ID 1 a 3)
-  SET fid = 1;
+
+  SET fid = 1;  -- Iterar sobre cada funeraria (ID 1 a 3)
 
   WHILE fid <= 3 DO
 
@@ -46,32 +45,32 @@ BEGIN
     DECLARE fecha_fallecimiento DATE;
     DECLARE funeraria_id INT;
 
-    -- Paso 1: Obtener la fecha de fallecimiento y la funeraria del cliente
+    -- Obtener la fecha de fallecimiento y la funeraria del cliente
     SELECT ea.fecha_fallecimiento, c.sede_funeraria_id_sede_funeraria
     INTO fecha_fallecimiento, funeraria_id
     FROM gestion_funeraria.expediente_autopsia ea
-    JOIN gestion_funeraria.cliente c ON ea.cliente_id_cliente = c.id_cliente
+    JOIN gestion_funeraria.cliente c ON ea.cliente_id_cliente = c.id_cliente -- Unir las dos columnas
     WHERE ea.cliente_id_cliente = cliente_id;
 
-    -- Paso 2: Verificar si la fecha de fallecimiento es mayor a 5 años
+    -- Verificar si la fecha de fallecimiento es mayor a 5 años
     IF fecha_fallecimiento <= DATE_SUB(CURDATE(), INTERVAL 5 YEAR) THEN
-        -- Paso 3: Liberar la tumba del cliente
-        UPDATE gestion_funeraria.hueco h
-        SET h.cliente_id_cliente = NULL,
+        -- Liberar la tumba del cliente
+        UPDATE gestion_funeraria.hueco h 
+        SET h.cliente_id_cliente = NULL, -- Indicar la columna a cambiar
             h.estado_hueco = 'Disponible'
         WHERE h.cliente_id_cliente = cliente_id;
 
-        -- Paso 4: Asignar un osario disponible al cliente
+        -- Asignar un osario disponible al cliente
         UPDATE gestion_funeraria.hueco h
-        JOIN (
+        JOIN ( -- Combinar los valores de las columnas que correspondan al requerimiento
             SELECT id_hueco
             FROM gestion_funeraria.hueco
             WHERE tipo_hueco = 'Osario'
             AND estado_hueco = 'Disponible'
             AND sede_funeraria_id_sede_funeraria = funeraria_id
             LIMIT 1  -- Asignar solo un osario
-        ) AS osario ON 1 = 1
-        SET h.cliente_id_cliente = cliente_id,
+        ) AS osario ON 1 = 1 -- Forzar la combinacion de la consulta, ya que no tienen una relación directa entre las columnas
+        SET h.cliente_id_cliente = cliente_id, --Actualizar el estado del hueco del cliente
             h.estado_hueco = 'Ocupado'
         WHERE h.id_hueco = osario.id_hueco;
 
@@ -86,14 +85,15 @@ DELIMITER //
 
 CREATE PROCEDURE proc_asignar_hueco_osario()
 BEGIN
-    -- Paso 1: Eliminar la tabla temporal si ya existe
+    
     DROP TEMPORARY TABLE IF EXISTS cliente_elegible;
 
     -- Crear una tabla temporal para almacenar los IDs de los clientes elegibles, asegurando que pertenezcan a la funeraria correcta
     CREATE TEMPORARY TABLE cliente_elegible AS
     SELECT c.id_cliente,
-           c.sede_funeraria_id_sede_funeraria,  -- Aseguramos que cada cliente tenga la funeraria correcta
-           ROW_NUMBER() OVER (PARTITION BY c.sede_funeraria_id_sede_funeraria ORDER BY c.id_cliente) AS row_num
+           c.sede_funeraria_id_sede_funeraria,  -- Asegura que cada cliente tenga la funeraria correcta
+            -- Genera un número de fila para cada cliente en función de su sede_funeraria_id_sede_funeraria
+           ROW_NUMBER() OVER (PARTITION BY c.sede_funeraria_id_sede_funeraria ORDER BY c.id_cliente) AS row_num -- la numeración de las filas se reiniciará para cada grupo de sede_funeraria_id_sede_funeraria
     FROM gestion_funeraria.cliente c
     JOIN gestion_funeraria.expediente_autopsia ea
       ON c.id_cliente = ea.cliente_id_cliente
@@ -104,7 +104,7 @@ BEGIN
       WHERE h2.cliente_id_cliente = c.id_cliente
     );
 
-    -- Paso 2: Crear una tabla temporal para los huecos disponibles por funeraria
+    -- Crear una tabla temporal para los huecos disponibles por funeraria
     DROP TEMPORARY TABLE IF EXISTS hueco_disponible;
 
     CREATE TEMPORARY TABLE hueco_disponible AS
@@ -116,15 +116,15 @@ BEGIN
     AND h.tipo_hueco = 'Osario'
     ORDER BY h.id_hueco;
 
-    -- Paso 3: Asignar los clientes a los huecos disponibles en la misma funeraria
+    -- Asignar los clientes a los huecos disponibles en la misma funeraria
     UPDATE gestion_funeraria.hueco h
     JOIN hueco_disponible hd ON h.id_hueco = hd.id_hueco
     JOIN cliente_elegible ce ON hd.row_num = ce.row_num
-    AND hd.sede_funeraria_id_sede_funeraria = ce.sede_funeraria_id_sede_funeraria  -- Aseguramos que coincidan las funerarias
+    AND hd.sede_funeraria_id_sede_funeraria = ce.sede_funeraria_id_sede_funeraria  -- Asegura que coincidan las funerarias
     SET h.cliente_id_cliente = ce.id_cliente,
         h.estado_hueco = 'Ocupado';
 
-    -- Paso 4: Eliminar las tablas temporales
+    -- Eliminar las tablas temporales
     DROP TEMPORARY TABLE IF EXISTS cliente_elegible;
     DROP TEMPORARY TABLE IF EXISTS hueco_disponible;
     
@@ -137,13 +137,13 @@ DELIMITER //
 
 CREATE PROCEDURE proc_asignar_hueco_tumba()
 BEGIN
-    -- Paso 1: Eliminar la tabla temporal si ya existe
+    
     DROP TEMPORARY TABLE IF EXISTS cliente_elegible;
 
     -- Crear una tabla temporal para almacenar los IDs de los clientes elegibles, asegurando que pertenezcan a la funeraria correcta
     CREATE TEMPORARY TABLE cliente_elegible AS
     SELECT c.id_cliente,
-           c.sede_funeraria_id_sede_funeraria,  -- Aseguramos que cada cliente tenga la funeraria correcta
+           c.sede_funeraria_id_sede_funeraria,  -- Asegurar que cada cliente tenga la funeraria correcta
            ROW_NUMBER() OVER (PARTITION BY c.sede_funeraria_id_sede_funeraria ORDER BY c.id_cliente) AS row_num
     FROM gestion_funeraria.cliente c
     JOIN gestion_funeraria.expediente_autopsia ea
@@ -155,7 +155,7 @@ BEGIN
       WHERE h2.cliente_id_cliente = c.id_cliente
     );
 
-    -- Paso 2: Crear una tabla temporal para los huecos disponibles por funeraria
+    -- Crear una tabla temporal para los huecos disponibles por funeraria
     DROP TEMPORARY TABLE IF EXISTS hueco_disponible;
 
     CREATE TEMPORARY TABLE hueco_disponible AS
@@ -167,7 +167,7 @@ BEGIN
     AND h.tipo_hueco = 'Tumba'
     ORDER BY h.id_hueco;
 
-    -- Paso 3: Asignar los clientes a los huecos disponibles en la misma funeraria
+    -- Asignar los clientes a los huecos disponibles en la misma funeraria
     UPDATE gestion_funeraria.hueco h
     JOIN hueco_disponible hd ON h.id_hueco = hd.id_hueco
     JOIN cliente_elegible ce ON hd.row_num = ce.row_num
@@ -175,7 +175,7 @@ BEGIN
     SET h.cliente_id_cliente = ce.id_cliente,
         h.estado_hueco = 'Ocupado';
 
-    -- Paso 4: Eliminar las tablas temporales
+    -- Eliminar las tablas temporales
     DROP TEMPORARY TABLE IF EXISTS cliente_elegible;
     DROP TEMPORARY TABLE IF EXISTS hueco_disponible;
     
